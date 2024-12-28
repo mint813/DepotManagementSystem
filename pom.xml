@@ -23,7 +23,7 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        
+
         <!-- JUnit Jupiter Engine for running tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -61,11 +61,11 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>uk.ac.herts.sp23ahy.mod_6com2013.asgnpart2.view.ParcelListFrame</mainClass>
+                            <mainClass>Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-</project> 
+</project>

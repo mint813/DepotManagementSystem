@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: uk.ac.herts.sp23ahy.mod_6com2013.asgnpart2.integration.BoundaryTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in uk.ac.herts.sp23ahy.mod_6com2013.asgnpart2.integration.BoundaryTest
