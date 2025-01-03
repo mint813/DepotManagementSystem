@@ -38,10 +38,10 @@ public class ParcelManager
 
 				parcel.setParcelID(temp[0]);
 				parcel.setDaysInDepot(Integer.parseInt(temp[1]));
-				parcel.setWeight(Integer.parseInt(temp[2]));
-				parcel.setWidth(Integer.parseInt(temp[3]));
-				parcel.setLength(Integer.parseInt(temp[4]));
-				parcel.setHeight(Integer.parseInt(temp[5]));
+				parcel.setWeight(Double.parseDouble(temp[2]));
+				parcel.setWidth(Double.parseDouble(temp[3]));
+				parcel.setLength(Double.parseDouble(temp[4]));
+				parcel.setHeight(Double.parseDouble(temp[5]));
 				parcels.add(parcel);
 			}
 		}
