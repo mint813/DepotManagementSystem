@@ -30,19 +30,28 @@ public class ParcelManager
 				new FileReader("Parcels.csv")))
 		{
 			String input;
-
+			br.readLine(); // 跳过标题行
 			while ((input = br.readLine()) != null)
 			{
-				String[] temp = input.split(",");
-				Parcel parcel = new Parcel();
-
-				parcel.setParcelID(temp[0]);
-				parcel.setDaysInDepot(Integer.parseInt(temp[1]));
-				parcel.setWeight(Double.parseDouble(temp[2]));
-				parcel.setWidth(Double.parseDouble(temp[3]));
-				parcel.setLength(Double.parseDouble(temp[4]));
-				parcel.setHeight(Double.parseDouble(temp[5]));
-				parcels.add(parcel);
+				try {
+					String[] temp = input.split(",");
+					if (temp.length != 6) {
+						System.err.println("Invalid data format: " + input);
+						continue;
+					}
+					
+					Parcel parcel = new Parcel();
+					parcel.setParcelID(temp[0]);
+					parcel.setDaysInDepot(Integer.parseInt(temp[1]));
+					parcel.setWeight(Double.parseDouble(temp[2]));
+					parcel.setWidth(Double.parseDouble(temp[3]));
+					parcel.setLength(Double.parseDouble(temp[4]));
+					parcel.setHeight(Double.parseDouble(temp[5]));
+					
+					parcels.add(parcel);
+				} catch (NumberFormatException e) {
+					System.err.println("Invalid number format in line: " + input);
+				}
 			}
 		}
 		catch (Exception e)
