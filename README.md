@@ -1,175 +1,174 @@
-# 仓库包裹管理系统
+# Depot Management System
 
-## 项目概述
+## Project Overview
 
-这是一个基于Java Swing开发的仓库包裹管理系统，用于管理包裹的接收、存储和客户取件流程。系统采用MVC架构模式设计，实现了包裹管理、客户队列、费用计算等核心功能。
+This is a warehouse parcel management system developed based on Java Swing, which is used to manage the parcel receiving, storage and customer pickup process. The system adopts the MVC architecture design and implements core functions such as parcel management, customer queues, and cost calculation.
 
-### 业务流程
-1. 站点接收客户包裹
-2. 工作人员按排序记录包裹信息
-3. 客户到达仓库使用排队系统
-4. 客户领取包裹并支付费用
-5. 系统更新包裹状态
+### Business process
+1. The site receives the customer's package
+2. The staff records the package information in order
+3. The customer arrives at the warehouse and uses the queuing system
+4. The customer picks up the package and pays the fee
+5. The system updates the package status
 
-## 系统要求
+## System requirements
 
-- JDK 17 或更高版本
-- Maven 3.6 或更高版本
-- 最小内存要求：512MB
-- 推荐内存：1GB
-- 磁盘空间：100MB
+- JDK 17 or higher
+- Maven 3.6 or higher
+- Minimum memory requirement: 512MB
+- Recommended memory: 1GB
+- Disk space: 100MB
 
-## 快速开始
+## Quick start
 
-1. 克隆项目
+1. Clone the project
 
 ```bash
 git clone https://github.com/your-repo/warehouse-parcel-management.git
 cd warehouse-parcel-management
 ```
 
-2. 编译项目
+2. Compile the project
 
 ```bash
 mvn clean compile
 ```
 
-3. 运行项目
+3. Run the project
 
 ```bash
 mvn exec:java -Dexec.mainClass="uk.ac.herts.sp23ahy.mod_6com2013.asgnpart2.Main"
 ```
 
-## 功能特性
+## Features
 
-1. 包裹管理
-   - 添加新包裹（ID、尺寸、重量、存放天数）
-   - 查看包裹列表（按客户姓氏排序）
-   - 标记包裹已收集
-   - 计算存储费用
-   - 支持至少20个包裹的管理
+1. Package management
+- Add new package (ID, size, weight, storage days)
+- View package list (sorted by customer surname)
+- Mark package collected
+- Calculate storage fee
+- Support management of at least 20 packages
 
-2. 客户队列管理
-   - 客户排队系统（FIFO原则）
-   - 按姓氏字母顺序排序
-   - 处理下一位客户
-   - 显示当前处理的客户信息
+2. Customer queue management
+- Customer queuing system (FIFO principle)
+- Sort alphabetically by surname
+- Process the next customer
+- Display the currently processed customer information
 
-3. 费用计算
-   - 基础费用：5.0
-   - 重量费用：0.5/kg
-   - 体积费用：0.001/cm³
-   - 存储费用：1.0/天
+3. Fee calculation
+- Basic fee: 5.0
+- Weight fee: 0.5/kg
+- Volume fee: 0.001/cm³
+- Storage fee: 1.0/day
 
-## 系统架构
+## System architecture
 
-### MVC模式实现
+### MVC mode implementation
 
-1. Model（模型层）
-   - Customer：客户信息（姓名、包裹ID）
-   - Parcel：包裹信息（ID、尺寸、重量、天数）
-   - QueueOfCustomers：客户队列管理
-   - Log：日志记录（单例模式）
+1. Model (model layer)
+- Customer: customer information (name, package ID)
+- Parcel: Parcel information (ID, size, weight, days)
+- QueueOfCustomers: Customer queue management
+- Log: Log record (singleton mode)
 
-2. View（视图层）
-   - ParcelListFrame：主窗口
-     - 包裹列表显示
-     - 客户队列显示
-     - 当前处理包裹信息
-   - AddParcelDialog：添加包裹对话框
+2. View (view layer)
+- ParcelListFrame: Main window
+- Parcel list display
+- Customer queue display
+- Currently processed parcel information
+- AddParcelDialog: Add parcel dialog box
 
-3. Controller（控制层）
-   - ParcelManager：包裹数据管理
-   - CustomerManager：客户数据管理
-   - Worker：业务逻辑处理（费用计算、包裹处理）
+3. Controller (control layer)
+- ParcelManager: Parcel data management
+- CustomerManager: Customer data management
+- Worker: Business logic processing (cost calculation, parcel processing)
 
-## 数据文件
+## Data file
 
-### CSV文件格式
+### CSV file format
 
 1. Parcels.csv
 ```csv
-ParcelID,DaysInDepot,Weight,Length,Width,Height
-TEST001,5,10.0,20.0,15.0,25.0
+ParcelID, DaysInDepot, Weight, Length, Width, Height
+TEST001, 5, 10.0, 20.0, 15.0, 25.0
 ```
 
 2. Custs.csv
 ```csv
-CustomerName,ParcelID
+CustomerName, ParcelID
 John Smith,TEST001
 ```
 
-## 测试
+## Testing
 
-运行测试：
+Running tests:
 
 ```bash
-# 运行所有测试
+# Run all tests
 mvn test
 
-# 运行特定测试
+# Run specific tests
 mvn test -Dtest=SystemFunctionalTest
 ```
 
-### 测试类型
-1. 单元测试
-   - ParcelTest：包裹基本功能测试
-   - CustomerTest：客户操作测试
-   - WorkerTest：业务逻辑测试
+### Test types
+1. Unit testing
+- ParcelTest: Package basic function test
+- CustomerTest: Customer operation test
+- WorkerTest: Business logic test
 
-2. 集成测试
-   - SystemIntegrationTest：系统集成测试
-   - SystemFunctionalTest：功能流程测试
-   - BoundaryTest：边界条件测试
+2. Integration testing
+- SystemIntegrationTest: System integration test
+- SystemFunctionalTest: Functional flow test
+- BoundaryTest: Boundary condition test
 
-## 故障排除
+## Troubleshooting
 
-1. 程序无法启动
-   - 检查Java版本（需要JDK 17+）
-   - 确认数据文件存在（Parcels.csv, Custs.csv）
-   - 验证文件权限（读写权限）
+1. Program cannot start
+- Check Java version (requires JDK 17+)
+- Confirm that data files exist (Parcels.csv, Custs.csv)
+- Verify file permissions (read and write permissions)
 
-2. 数据无法保存
-   - 检查磁盘空间
-   - 验证文件写入权限
-   - 确认文件未被锁定
+2. Data cannot be saved
+- Check disk space
+- Verify file write permissions
+- Confirm that the file is not locked
 
-## 开发指南
+## Development Guide
 
-1. 代码规范
-   - 遵循Java编码规范
-   - 添加适当的注释
-   - 保持代码简洁
-   - 使用有意义的变量名
+1. Code Standards
+- Follow Java Coding Standards
+- Add appropriate comments
+- Keep code concise
+- Use meaningful variable names
 
-2. 提交规范
-   - 清晰的提交信息
-   - 单一功能提交
-   - 提交前进行测试
-   - 保持代码可追踪性
+2. Submission Standards
+- Clear submission information
+- Single function submission
+- Test before submission
+- Keep code traceable
 
-3. 设计模式使用
-   - 单例模式：Log类
-   - MVC模式：整体架构
-   - 观察者模式：GUI更新
+3. Use of design patterns
+- Singleton pattern: Log class
+- MVC pattern: Overall architecture
+- Observer pattern: GUI update
 
-## 版本历史
+## Version History
 
-- v1.0.0 (2024-01)
-  - 初始版本发布
-  - 实现基本功能：包裹管理、客户队列、费用计算
-  - 完成GUI界面
-  - 实现数据持久化
+- v1.0.0 (2025-01)
+- Initial version release
+- Implement basic functions: package management, customer queue, fee calculation
+- Complete GUI interface
+- Implement data persistence
 
-## 许可证
+## License
 
-本项目采用 MIT 许可证。
+This project uses the MIT license.
 
-## 作者
+## Author
 
-- 姓名：[您的姓名]
-- 学号：[您的学号]
-- 邮箱：[您的邮箱]
-- 课程：6COM2013 Software Engineering Practice
-- 学期：2023-2024
-    
+- Name: Wang Liule
+- Student ID: 24048611
+- Email: 2264571923@qq.com
+- Course: 6COM2013-0901-2024 - Software Architecture
+- Term: 2024-2025
