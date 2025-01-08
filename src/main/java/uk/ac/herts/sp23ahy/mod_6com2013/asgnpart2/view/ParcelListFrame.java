@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -38,6 +41,12 @@ public class ParcelListFrame extends JFrame
 	public ParcelListFrame() throws Exception
 	{
 		super("Parcel List - Depot Management System");
+
+		// 首先初始化包裹数据
+		initializeParcels();
+		
+		// 然后初始化客户队列
+		initializeCustomerQueue();
 
 		// 创建主面板，使用BorderLayout
 		JPanel mainPanel = new JPanel(new BorderLayout());
@@ -99,28 +108,31 @@ public class ParcelListFrame extends JFrame
 				Parcel parcel = parcelManager.getParcel(parcelID);
 
 				if (parcel != null && JOptionPane.showConfirmDialog(this,
-						"Are you sure want to mark this parcel as collected?",
-						getTitle(),
+						"Are you sure you want to mark this parcel as collected?",
+						"Confirm Collection",
 						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
 				{
 					if (parcelManager.deleteParcel(parcel))
 					{
 						JOptionPane.showMessageDialog(this,
-								"Parcel " + parcel + " successfully collected.",
-								getTitle(), JOptionPane.INFORMATION_MESSAGE);
+								"Parcel " + parcel + " has been successfully collected.",
+								"Collection Successful",
+								JOptionPane.INFORMATION_MESSAGE);
 						display();
 					}
 				}
 			}
 			else {
 				JOptionPane.showMessageDialog(this,
-						"Unable to read the parcel ID.", getTitle(),
+						"Unable to read the parcel ID.",
+						"Invalid Parcel ID",
 						JOptionPane.WARNING_MESSAGE);
 			}
 		}
 		else {
 			JOptionPane.showMessageDialog(this,
-					"Please select a parcel to mark as collected.", getTitle(),
+					"Please select a parcel to mark as collected.",
+					"No Parcel Selected",
 					JOptionPane.WARNING_MESSAGE);
 		}
 	}
@@ -131,7 +143,8 @@ public class ParcelListFrame extends JFrame
 		{
 			btnSave.setEnabled(false);
 			JOptionPane.showMessageDialog(this,
-					"Successfully saved the operations.", getTitle(),
+					"All operations have been successfully saved.",
+					"Save Successful",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
@@ -163,8 +176,8 @@ public class ParcelListFrame extends JFrame
 			display();
 		} else {
 			JOptionPane.showMessageDialog(this,
-				"No customers in queue",
-				getTitle(),
+				"No customers are waiting in the queue.",
+				"Empty Queue",
 				JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
@@ -260,6 +273,59 @@ public class ParcelListFrame extends JFrame
 		} else {
 			lblCurrentCustomer.setText("No customer being processed");
 			lblFee.setText("Fee: £0.00");
+		}
+	}
+
+	// 添加新方法：初始化包裹数据
+	private void initializeParcels() {
+		try (BufferedReader br = new BufferedReader(new FileReader("Parcels.csv"))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				String[] data = line.split(",");
+				if (data.length == 6) {
+					Parcel parcel = new Parcel();
+					parcel.setParcelID(data[0]);
+					parcel.setDaysInDepot(Integer.parseInt(data[1]));
+					parcel.setWeight(Double.parseDouble(data[2]));
+					parcel.setWidth(Double.parseDouble(data[3]));
+					parcel.setLength(Double.parseDouble(data[4]));
+					parcel.setHeight(Double.parseDouble(data[5]));
+					
+					parcelManager.addParcel(parcel);
+				}
+			}
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this,
+				"Failed to load parcel data: " + e.getMessage(),
+				"Data Loading Error",
+				JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+	}
+
+	private void initializeCustomerQueue() {
+		try (BufferedReader br = new BufferedReader(new FileReader("Custs.csv"))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				String[] data = line.split(",");
+				if (data.length == 2) {
+					String customerName = data[0];
+					String parcelID = data[1];
+					
+					Parcel parcel = parcelManager.getParcel(parcelID);
+					if (parcel != null) {
+						Customer customer = new Customer(customerName, parcel);
+						customerQueue.addCustomer(customer);
+					}
+				}
+			}
+			updateQueueDisplay();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(this,
+				"Failed to load customer data: " + e.getMessage(),
+				"Data Loading Error",
+				JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 		}
 	}
 

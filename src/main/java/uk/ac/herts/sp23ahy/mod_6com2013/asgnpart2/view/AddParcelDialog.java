@@ -3,15 +3,9 @@ package uk.ac.herts.sp23ahy.mod_6com2013.asgnpart2.view;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.Locale;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
 
 import uk.ac.herts.sp23ahy.mod_6com2013.asgnpart2.controller.ParcelManager;
 import uk.ac.herts.sp23ahy.mod_6com2013.asgnpart2.model.Parcel;
@@ -32,7 +26,13 @@ public class AddParcelDialog extends JDialog
 
 	public AddParcelDialog(ParcelListFrame frame)
 	{
-		super(frame, "Add Parcel Dialog", true);
+		super(frame, "Add Parcel", true);
+
+		JComponent.setDefaultLocale(Locale.ENGLISH);
+		UIManager.put("OptionPane.yesButtonText", "Yes");
+		UIManager.put("OptionPane.noButtonText", "No");
+		UIManager.put("OptionPane.okButtonText", "OK");
+		UIManager.put("OptionPane.cancelButtonText", "Cancel");
 
 		JPanel pnlCenter = new JPanel(new GridLayout(6, 2)),
 				pnlSouth = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -78,14 +78,16 @@ public class AddParcelDialog extends JDialog
 
 		if (parcelManager.addParcel(parcel))
 		{
-			JOptionPane.showMessageDialog(this, "Parcel successfully added.",
-					getTitle(), JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, 
+				"Parcel has been successfully added.",
+				"Add Successful",
+				JOptionPane.INFORMATION_MESSAGE);
 			this.dispose();
-		}
-		else {
+		} else {
 			JOptionPane.showMessageDialog(this,
-					"Unable to add parcel. Please try again.", getTitle(),
-					JOptionPane.WARNING_MESSAGE);
+				"Failed to add parcel. Please try again.",
+				"Add Failed",
+				JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
